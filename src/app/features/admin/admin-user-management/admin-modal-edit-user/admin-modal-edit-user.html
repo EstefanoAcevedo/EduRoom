@@ -99,9 +99,9 @@
             <div class="modal-footer">
                 <button (click)="hide()" type="button" class="btn btn-danger">Cancelar</button>
                 @if (isEditing) {
-                    <button class="btn btn-success" type="button" disabled>
-                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                        <span role="status">Guardando...</span>
+                    <button class="btn btn-success m-1" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Guardando cambios...
                     </button>
                 } @else {
                     <button (click)="editUser()" type="button" class="btn btn-success">Guardar cambios</button>

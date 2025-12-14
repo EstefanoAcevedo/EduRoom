@@ -35,12 +35,12 @@
                                 <td>
                                     <div class="d-flex justify-content-end h-100">
                                         @if (enrollment.isApproving) {
-                                            <button class="btn btn-success m-1">
+                                            <button class="btn btn-success m-1" disabled>
                                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                 Aceptando...
                                             </button>
                                         } @else if (enrollment.isRejecting) {
-                                            <button class="btn btn-danger m-1">
+                                            <button class="btn btn-danger m-1" disabled>
                                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                 Rechazando...
                                             </button>

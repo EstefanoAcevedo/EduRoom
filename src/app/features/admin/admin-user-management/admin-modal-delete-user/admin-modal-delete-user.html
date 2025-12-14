@@ -10,9 +10,9 @@
             </div>
             <div class="modal-footer">
                 @if (isDeleting) {
-                    <button class="btn btn-danger" type="button" disabled>
-                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                        <span role="status">Eliminando...</span>
+                    <button class="btn btn-danger m-1" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Eliminando...
                     </button>
                 } @else {
                     <button (click)="deleteUser()" type="button" class="btn btn-danger">Eliminar</button>
