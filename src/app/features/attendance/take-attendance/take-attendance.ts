@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { CareersService } from '../../../core/services/careers/careers-service';
@@ -13,11 +13,11 @@ import { EnrollmentInterface } from '../../../core/models/enrollments/enrollment
 import { AttendanceStateInterface } from '../../../core/models/attendances/attendance-state-interface';
 import { StoreMultipleAttendancesRequestInterface } from '../../../core/models/attendances/store-multiple-attendances-request-interface';
 import { StoreMultipleAttendancesResponseInterface } from '../../../core/models/attendances/store-multiple-attendances-response-interface.ts';
-import { NotificationToast } from "../../../shared/components/notifications/notification-toast/notification-toast";
+import { ToastService } from '../../../core/services/notifications/toast/toast-service';
 
 @Component({
   selector: 'app-take-attendance',
-  imports: [ReactiveFormsModule, NgClass, NotificationToast],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './take-attendance.html',
   styleUrl: './take-attendance.css'
 })
@@ -29,20 +29,20 @@ export class TakeAttendance {
   private enrollmentsService = inject(EnrollmentsServices);
   private attendanceStatesService = inject(AttendanceStatesService);
   private attendancesService = inject(AttendancesService);
-  
+  private toastService = inject(ToastService);
+
   ngOnInit() {
     this.getCareersWithSubjects();
     this.getCommissions();
     this.getAttendanceStates();
   }
-  
+
   isRegisteringAttendance: boolean = false;
   isLoadingCareers: boolean = true;
   isError: boolean = false;
   isLoadingEnrollments: boolean = true;
   isErrorEnrollments: boolean = false;
   isCommissionSelected: boolean = false;
-  @ViewChild(NotificationToast) notificationToast!: NotificationToast;
 
   /* Variables tipo array que se utilizarán para rellenar los selects del selector de comisión, al principio son vacíos, su valor cambiará a medida que se selecciona una carrera, materia y comisión */
   careers: CareerInterface[] = [];
@@ -157,11 +157,7 @@ export class TakeAttendance {
         next: (response) => {
           this.isRegisteringAttendance = false;
           this.storeMultipleAttendancesResponse = response;
-          this.notificationToast.show({
-            status: 'success',
-            title: 'Éxito',
-            message: response.message
-          });
+          this.toastService.showSuccess(response.message, 'Éxito');
           this.isCommissionSelected = false;
           this.newAttendanceForm();
           this.commissionForm.controls.commission.reset();
@@ -170,11 +166,7 @@ export class TakeAttendance {
         error: (error) => {
           this.isRegisteringAttendance = false;
           this.storeMultipleAttendancesResponse = error;
-          this.notificationToast.show({
-            status: 'error',
-            title: 'Error al registrar asistencias',
-            message: this.storeMultipleAttendancesResponse?.error
-          });
+          this.toastService.showError(this.storeMultipleAttendancesResponse?.error ?? 'Ha ocurrido un error desconocido.', 'Error al registrar asistencias');
         }
       })
       

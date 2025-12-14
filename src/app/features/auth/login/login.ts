@@ -4,18 +4,19 @@ import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from "@angula
 import { RouterLink, Router } from "@angular/router";
 import { AuthService } from '../../../core/services/auth/auth-service';
 import { LoginRequestInterface } from '../../../core/models/auth/login-request-interface';
-import { NotificationToast } from '../../../shared/components/notifications/notification-toast/notification-toast';
+import { ToastService } from '../../../core/services/notifications/toast/toast-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, NotificationToast],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class Login {
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toastService = inject(ToastService);
 
   isLoading: boolean = false;
 
@@ -45,8 +46,6 @@ export class Login {
     sessionStorage.setItem('user_id', String(data.user_id)); // 👈 AGREGADO
   }
 
-
-  @ViewChild(NotificationToast) notificationToast!: NotificationToast;
   onSubmit() {
     this.submitted = true;
     this.loginForm.markAllAsTouched();
@@ -93,11 +92,7 @@ export class Login {
         error: (error) => {
           this.isLoading = false;
           console.error('Error durante el inicio de sesión:', error);
-          this.notificationToast.show({
-            status: 'error',
-            title: 'Error al iniciar sesión',
-            message: error.error?.message
-          });
+          this.toastService.showError(error.error?.message, 'Error al iniciar sesión.');
         }
       });
 

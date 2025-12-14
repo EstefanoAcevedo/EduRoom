@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { CareersService } from '../../../core/services/careers/careers-service';
@@ -9,14 +9,14 @@ import { CareerInterface } from '../../../core/models/careers/career-interface';
 import { SubjectsInterface } from '../../../core/models/subjects/subjects-interface';
 import { CommissionInterface } from '../../../core/models/commissions/commission-interface';
 import { AttendanceStateInterface } from '../../../core/models/attendances/attendance-state-interface';
-import { NotificationToast } from '../../../shared/components/notifications/notification-toast/notification-toast';
+import { ToastService } from '../../../core/services/notifications/toast/toast-service';
 import { PreviousAttendanceInterface } from '../../../core/models/attendances/previous-attendance-interface';
 import { UpdateMultipleAttendancesRequestInterface } from '../../../core/models/attendances/update-multiple-attendances-request-interface';
 import { UpdateMultipleAttendancesResponseInterface } from '../../../core/models/attendances/update-multiple-attendances-response-interface';
 
 @Component({
   selector: 'app-edit-attendance',
-  imports: [ReactiveFormsModule, NgClass, NotificationToast],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './edit-attendance.html',
   styleUrl: './edit-attendance.css'
 })
@@ -27,20 +27,20 @@ export class EditAttendance {
   private commissionsService = inject(CommissionsService);
   private attendanceStatesService = inject(AttendanceStatesService);
   private attendancesService = inject(AttendancesService);
-  
+  private toastService = inject(ToastService);
+
   ngOnInit() {
     this.getCareersWithSubjects();
     this.getCommissions();
     this.getAttendanceStates();
   }
-  
+
   isLoadingCareers: boolean = false;
   isEditingAttendance: boolean = false;
   isError: boolean = false;
   isLoadingPreviousAttendances: boolean = true;
   isErrorPreviousAttendances: boolean = false;
   isCommissionSelected: boolean = false;
-  @ViewChild(NotificationToast) notificationToast!: NotificationToast;
 
   /* Variables tipo array que se utilizarán para rellenar los selects del selector de comisión, al principio son vacíos, su valor cambiará a medida que se selecciona una carrera, materia y comisión */
   careers: CareerInterface[] = [];
@@ -84,7 +84,7 @@ export class EditAttendance {
     this.commissionForm.controls.attendance_date.reset();
     this.commissionForm.controls.attendance_date.enable();
   }
-  
+
   onAttendanceDateChange() {
     let subjectId = Number(this.commissionForm.controls.subject.value);
     let commissionId = Number(this.commissionForm.controls.commission.value);
@@ -162,11 +162,7 @@ export class EditAttendance {
         next: (response) => {
           this.isEditingAttendance = false;
           this.updateMultipleAttendancesResponse = response;
-          this.notificationToast.show({
-            status: 'success',
-            title: 'Éxito',
-            message: response.message
-          });
+          this.toastService.showSuccess(response.message, 'Éxito');
           this.isCommissionSelected = false;
           this.newAttendanceForm();
           this.commissionForm.controls.commission.reset();
@@ -178,11 +174,7 @@ export class EditAttendance {
         error: (error) => {
           this.isEditingAttendance = false;
           this.updateMultipleAttendancesResponse = error;
-          this.notificationToast.show({
-            status: 'error',
-            title: 'Error al registrar asistencias',
-            message: this.updateMultipleAttendancesResponse?.error
-          });
+          this.toastService.showError(this.updateMultipleAttendancesResponse?.error ?? 'Ha ocurrido un error desconocido.', 'Error al registrar asistencias');
         }
       })
       

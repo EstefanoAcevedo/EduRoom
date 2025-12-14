@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { CareerInterface } from '../../../core/models/careers/career-interface';
@@ -7,15 +7,14 @@ import { CommissionInterface } from '../../../core/models/commissions/commission
 import { PreviousAttendanceInterface } from '../../../core/models/attendances/previous-attendance-interface';
 import { CareersService } from '../../../core/services/careers/careers-service';
 import { CommissionsService } from '../../../core/services/commissions/commissions-service';
-import { AttendanceStatesService } from '../../../core/services/attendances/attendance-states-service';
 import { AttendancesService } from '../../../core/services/attendances/attendances-service';
-import { NotificationToast } from '../../../shared/components/notifications/notification-toast/notification-toast';
+import { ToastService } from '../../../core/services/notifications/toast/toast-service';
 import { UpdateMultipleAttendancesRequestInterface } from '../../../core/models/attendances/update-multiple-attendances-request-interface';
 import { UpdateMultipleAttendancesResponseInterface } from '../../../core/models/attendances/update-multiple-attendances-response-interface';
 
 @Component({
   selector: 'app-justify-absence',
-  imports: [ReactiveFormsModule, NgClass, NotificationToast],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './justify-absence.html',
   styleUrl: './justify-absence.css'
 })
@@ -24,8 +23,9 @@ export class JustifyAbsence {
   private formBuilder = inject(FormBuilder);
     private careersService = inject(CareersService);
     private commissionsService = inject(CommissionsService);
-    private attendanceStatesService = inject(AttendanceStatesService);
     private attendancesService = inject(AttendancesService);
+    private toastService = inject(ToastService);
+
 
   ngOnInit() {
     this.getCareersWithSubjects();
@@ -38,7 +38,6 @@ export class JustifyAbsence {
   isLoadingPreviousAttendances: boolean = true;
   isErrorPreviousAttendances: boolean = false;
   isCommissionSelected: boolean = false;
-  @ViewChild(NotificationToast) notificationToast!: NotificationToast;
 
   /* Variables tipo array que se utilizarán para rellenar los selects del selector de comisión, al principio son vacíos, su valor cambiará a medida que se selecciona una carrera, materia y comisión */
   careers: CareerInterface[] = [];
@@ -148,11 +147,7 @@ export class JustifyAbsence {
             next: (response) => {
               this.isEditingAttendance = false;
               this.updateMultipleAttendancesResponse = response;
-              this.notificationToast.show({
-                status: 'success',
-                title: 'Éxito',
-                message: response.message
-              });
+              this.toastService.showSuccess(response.message, 'Éxito');
               this.isCommissionSelected = false;
               this.newAttendanceForm();
               this.commissionForm.controls.commission.reset();
@@ -164,11 +159,7 @@ export class JustifyAbsence {
             error: (error) => {
               this.isEditingAttendance = false;
               this.updateMultipleAttendancesResponse = error;
-              this.notificationToast.show({
-                status: 'error',
-                title: 'Error al registrar asistencias',
-                message: this.updateMultipleAttendancesResponse?.error
-              });
+              this.toastService.showError(this.updateMultipleAttendancesResponse?.error ?? 'Ha ocurrido un error desconocido.', 'Error al registrar asistencias');
             }
           })
           

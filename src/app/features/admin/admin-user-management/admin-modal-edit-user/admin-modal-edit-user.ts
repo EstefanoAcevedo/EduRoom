@@ -5,6 +5,7 @@ import { UserInterface } from '../../../../core/models/users/user-interface';
 import { RolInterface } from '../../../../core/models/roles/rol-interface';
 import { RolesService } from '../../../../core/services/roles/roles-service';
 import { UsersService } from '../../../../core/services/users/users-service';
+import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
 
 @Component({
   selector: 'app-admin-modal-edit-user',
@@ -22,6 +23,7 @@ export class AdminModalEditUser {
   private modalEditUser!: bootstrap.Modal;
   private usersService = inject(UsersService);
   private rolesService = inject(RolesService);
+  private toastService = inject(ToastService);
   roles: RolInterface[] = [];
   isEditing: boolean = false;
 
@@ -108,10 +110,12 @@ export class AdminModalEditUser {
         next: (response) => {
           this.isEditing = false;
           this.hide();
+          this.toastService.showSuccess('Usuario actualizado correctamente.', 'Éxito');
         },
         error: (error) => {
           console.log("Error al actualizar el usuario", error);
           this.isEditing = false;
+          this.toastService.showError('Ocurrió un error al intentar actualizar el usuario. Por favor, intente nuevamente más tarde.', 'Error');
         }
       })
     } else {

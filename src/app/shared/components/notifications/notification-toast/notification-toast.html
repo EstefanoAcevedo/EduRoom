@@ -9,7 +9,7 @@
                 }">
                 {{ title }}
             </strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            <button type="button" class="btn-close" (click)="hide()"></button>
         </div>
         <div class="toast-body bg-white">
             {{ message }}

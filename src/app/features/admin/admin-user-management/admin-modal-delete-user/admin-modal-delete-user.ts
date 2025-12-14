@@ -2,6 +2,7 @@ import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import * as bootstrap from 'bootstrap';
 import { UserInterface } from '../../../../core/models/users/user-interface';
 import { UsersService } from '../../../../core/services/users/users-service';
+import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
 
 @Component({
   selector: 'app-admin-modal-delete-user',
@@ -14,6 +15,7 @@ export class AdminModalDeleteUser {
   @ViewChild('adminModalDeleteUser') modalElement!: ElementRef;
   private modalEditUser!: bootstrap.Modal;
   private usersService = inject(UsersService);
+  private toastService = inject(ToastService);
   isDeleting: boolean = false;
 
   ngAfterViewInit() {
@@ -37,10 +39,12 @@ export class AdminModalDeleteUser {
         console.log("Usuario eliminado correctamente", response);
         this.isDeleting = false;
         this.hide();
+        this.toastService.showSuccess('Usuario eliminado correctamente.', 'Éxito');
       },
       error: (error) => {
         this.isDeleting = false;
         console.log("Error al eliminar el usuario", error);
+        this.toastService.showError('Ocurrió un error al intentar eliminar el usuario. Por favor, intente nuevamente más tarde.', 'Error');
       }
     })
   }

@@ -10,7 +10,6 @@ export interface EnrollmentInterface {
     subject: SubjectsInterface;
     commission: CommissionInterface;
 
-    isLoading?: boolean;
-    isApproved?: boolean;
-    isRejected?: boolean;
+    isApproving?: boolean;
+    isRejecting?: boolean;
 }

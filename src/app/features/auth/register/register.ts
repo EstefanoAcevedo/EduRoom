@@ -1,16 +1,16 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LocationsService } from '../../../core/services/locations/locations-service';
 import { RolesService } from '../../../core/services/roles/roles-service';
 import { RegisterRequestInterface } from '../../../core/models/auth/register-request-interface';
 import { RolInterface } from '../../../core/models/roles/rol-interface';
 import { AuthService } from '../../../core/services/auth/auth-service';
-import { NotificationToast } from '../../../shared/components/notifications/notification-toast/notification-toast';
+import { ToastService } from '../../../core/services/notifications/toast/toast-service';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink, ReactiveFormsModule, NotificationToast],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css'
 })
@@ -20,6 +20,7 @@ export class Register {
   private locationsService = inject(LocationsService);
   private rolesService = inject(RolesService);
   private authService = inject(AuthService);
+  private toastService = inject(ToastService);
 
   isLoading: boolean = false;
 
@@ -100,7 +101,6 @@ export class Register {
     }
   }
 
-  @ViewChild(NotificationToast) notificationToast!: NotificationToast;
   registerUser() {
     if (this.registerForm.valid) {
       this.isLoading = true;
@@ -120,19 +120,12 @@ export class Register {
       this.authService.register(registerRequest).subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.notificationToast.show({
-            title: 'Éxito',
-            message: `${response.message}, ya puede iniciar sesión con sus credenciales`,
-            status: 'success'
-          });
+          this.toastService.showSuccess(`${response.message}, ya puede iniciar sesión con sus credenciales`, 'Registro exitoso');
+          this.registerForm.reset();
         },
         error: (error) => {
           this.isLoading = false;
-          this.notificationToast.show({
-            title: 'Error al registrar usuario',
-            message: error.error.message,
-            status: 'error'
-          })
+          this.toastService.showError(error.error.message, 'Error al registrar usuario');
         }
       })
     } else {
@@ -148,6 +141,7 @@ export class Register {
       },
       error: (error) => {
         console.log("No se pudieron obtener las provincias", error);
+        this.toastService.showError('Ocurrió un error al intentar cargar el formulario, intente nuevamente más tarde', 'Error');
       }
     })
   }
@@ -161,6 +155,7 @@ export class Register {
       },
       error: (error) => {
         console.log("No se pudieron obtener las localidades", error);
+        this.toastService.showError('Ocurrió un error al intentar cargar el formulario, intente nuevamente más tarde', 'Error');
       }
     })
   }
@@ -173,6 +168,7 @@ export class Register {
       },
       error: (error) => {
         console.log("No se pudieron obtener los roles", error);
+        this.toastService.showError('Ocurrió un error al intentar cargar el formulario, intente nuevamente más tarde', 'Error');
       }
     })
   }

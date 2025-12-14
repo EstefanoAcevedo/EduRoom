@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { filter } from 'rxjs';
+import { NotificationToast } from "./shared/components/notifications/notification-toast/notification-toast";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ReactiveFormsModule],
+  imports: [RouterOutlet, ReactiveFormsModule, NotificationToast],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

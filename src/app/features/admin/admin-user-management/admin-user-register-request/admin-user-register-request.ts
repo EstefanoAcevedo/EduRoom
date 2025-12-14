@@ -1,18 +1,18 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { EnrollmentInterface } from '../../../../core/models/enrollments/enrollment-interface';
 import { EnrollmentsServices } from '../../../../core/services/enrollments/enrollments-services';
-import { NotificationToast } from '../../../../shared/components/notifications/notification-toast/notification-toast';
+import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
 
 @Component({
   selector: 'app-admin-user-register-request',
-  imports: [NotificationToast],
+  imports: [],
   templateUrl: './admin-user-register-request.html',
   styleUrl: './admin-user-register-request.css'
 })
 export class AdminUserRegisterRequest {
 
   private enrollmentsService = inject(EnrollmentsServices);
-  @ViewChild(NotificationToast) notificationToast!: NotificationToast;
+  private toastService = inject(ToastService);
 
   ngOnInit() {
     this.getPendingEnrollments();
@@ -38,40 +38,34 @@ export class AdminUserRegisterRequest {
     })
   }
 
-  approveEnrollment(enrollment: EnrollmentInterface) {
-    enrollment.isLoading = true;
+  approveEnrollment(enrollment: EnrollmentInterface, index: number) {
+    enrollment.isApproving = true;
     enrollment.enrollment_status = 'approved';
     this.enrollmentsService.updateEnrollment(enrollment).subscribe({
       next: (response) => {
-        enrollment.isLoading = false;
-        enrollment.isApproved = true;
+        this.toastService.showSuccess('Inscripción aprobada correctamente.', 'Éxito');
+        enrollment.isApproving = false;
+        this.enrollments.splice(index, 1);
       },
       error: (error) => {
-        this.notificationToast.show({
-          status: 'error',
-          title: 'Error',
-          message: 'Ocurrió un error al intentar aprobar la inscripción. Por favor, intente nuevamente más tarde.'
-        })
-        enrollment.isLoading = false;
+        this.toastService.showError('Ocurrió un error al intentar aprobar la inscripción. Por favor, intente nuevamente más tarde.', 'Error');
+        enrollment.isApproving = false;
       }
     })
   }
 
-  rejectEnrollment(enrollment: EnrollmentInterface) {
-    enrollment.isLoading = true;
+  rejectEnrollment(enrollment: EnrollmentInterface, index: number) {
+    enrollment.isRejecting = true;
     enrollment.enrollment_status = 'rejected';
     this.enrollmentsService.updateEnrollment(enrollment).subscribe({
       next: (response) => {
-        enrollment.isLoading = false;
-        enrollment.isRejected = true;
+        this.toastService.showSuccess('Inscripción rechazada correctamente.', 'Éxito');
+        enrollment.isRejecting = false;
+        this.enrollments.splice(index, 1);
       },
       error: (error) => {
-        this.notificationToast.show({
-          status: 'error',
-          title: 'Error',
-          message: 'Ocurrió un error al intentar rechazar la inscripción'
-        })
-        enrollment.isLoading = false;
+        this.toastService.showError('Ocurrió un error al intentar rechazar la inscripción. Por favor, intente nuevamente más tarde.', 'Error');
+        enrollment.isRejecting = false;
       }
     })
   }

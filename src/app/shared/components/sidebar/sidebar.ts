@@ -1,13 +1,13 @@
-import { Component, inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth-service';
-import { NotificationToast } from "../notifications/notification-toast/notification-toast";
+import { ToastService } from '../../../core/services/notifications/toast/toast-service';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, NotificationToast],
+  imports: [RouterLink],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css'
 })
@@ -15,7 +15,7 @@ export class Sidebar {
 
   private authService = inject(AuthService);
   private router = inject(Router);
-  @ViewChild(NotificationToast) notificationToast!: NotificationToast;
+  private toastService = inject(ToastService);
 
   isLoading: boolean = false;
 
@@ -61,11 +61,8 @@ export class Sidebar {
       },
       error: (error) => {
         console.error(error.error);
-        this.notificationToast.show({
-        status: 'error',
-        message: error.error || 'Ocurrió un error inesperado al intentar cerrar sesión.',
-        title: 'Error al cerrar sesión'
-    });
+        this.toastService.showError('No se pudo cerrar la sesión. Inténtalo de nuevo más tarde.', 'Error al cerrar sesión');
+        this.isLoading = false;
       }
     })
   }
