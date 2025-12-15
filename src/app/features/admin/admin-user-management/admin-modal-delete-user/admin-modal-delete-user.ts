@@ -3,6 +3,7 @@ import * as bootstrap from 'bootstrap';
 import { UserInterface } from '../../../../core/models/users/user-interface';
 import { UsersService } from '../../../../core/services/users/users-service';
 import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
+import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-table';
 
 @Component({
   selector: 'app-admin-modal-delete-user',
@@ -16,6 +17,7 @@ export class AdminModalDeleteUser {
   private modalEditUser!: bootstrap.Modal;
   private usersService = inject(UsersService);
   private toastService = inject(ToastService);
+  private adminUserListTable = inject(AdminUserListTable);
   isDeleting: boolean = false;
 
   ngAfterViewInit() {
@@ -40,6 +42,7 @@ export class AdminModalDeleteUser {
         this.isDeleting = false;
         this.hide();
         this.toastService.showSuccess('Usuario eliminado correctamente.', 'Éxito');
+        this.adminUserListTable.getUsers();
       },
       error: (error) => {
         this.isDeleting = false;

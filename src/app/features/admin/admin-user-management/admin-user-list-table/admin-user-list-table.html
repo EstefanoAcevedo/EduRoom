@@ -40,7 +40,7 @@
                             <td>{{user.user_tel}}</td>
                             <td>{{user.user_address}}</td>
                             <td>{{user.user_location}}</td>
-                            <td>{{user.rol}}</td>
+                            <td>{{user.roles?.at(0)}}</td>
                             <td>
                                 <div class="d-flex justify-content-end h-100">
                                     <button (click)="showEditUserModal(user)" class="btn btn-warning m-1" title="Editar usuario">
