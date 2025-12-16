@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CareerInterface } from '../../../core/models/careers/career-interface';
 import { SubjectsInterface } from '../../../core/models/subjects/subjects-interface';
-import { CareersService } from '../../../core/services/careers/careers-service';
-import { SubjectsService } from '../../../core/services/subjects/subjects-service';
+import { CareersService } from '../../../core/services/api/careers/careers-service';
+import { SubjectsService } from '../../../core/services/api/subjects/subjects-service';
 
 @Component({
   selector: 'app-subjects',

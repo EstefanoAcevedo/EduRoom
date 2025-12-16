@@ -1,12 +1,12 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { LocationsService } from '../../../core/services/locations/locations-service';
-import { RolesService } from '../../../core/services/roles/roles-service';
+import { LocationsService } from '../../../core/services/api/locations/locations-service';
+import { RolesService } from '../../../core/services/api/roles/roles-service';
 import { RegisterRequestInterface } from '../../../core/models/auth/register-request-interface';
 import { RolInterface } from '../../../core/models/roles/rol-interface';
-import { AuthService } from '../../../core/services/auth/auth-service';
-import { ToastService } from '../../../core/services/notifications/toast/toast-service';
+import { AuthService } from '../../../core/services/api/auth/auth-service';
+import { ToastService } from '../../../core/services/ui/toast/toast-service';
 
 @Component({
   selector: 'app-register',

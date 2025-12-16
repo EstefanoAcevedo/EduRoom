@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommissionInterface } from '../../models/commissions/commission-interface';
-import { environment } from '../../../../enviroments/enviroment';
+import { CommissionInterface } from '../../../models/commissions/commission-interface';
+import { environment } from '../../../../../enviroments/enviroment';
 import { Observable } from 'rxjs';
 
 @Injectable({

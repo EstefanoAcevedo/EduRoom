@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RegisterRequestInterface } from '../../models/auth/register-request-interface';
+import { RegisterRequestInterface } from '../../../models/auth/register-request-interface';
 import { Observable } from 'rxjs';
-import { RegisterResponseInterface } from '../../models/auth/register-response-interface';
-import { environment } from '../../../../enviroments/enviroment';
-import { LoginRequestInterface } from '../../models/auth/login-request-interface';
-import { LoginResponseInterface } from '../../models/auth/login-response-interface';
-import { LogoutResponseInterface } from '../../models/auth/logout-response-interface';
+import { RegisterResponseInterface } from '../../../models/auth/register-response-interface';
+import { environment } from '../../../../../enviroments/enviroment';
+import { LoginRequestInterface } from '../../../models/auth/login-request-interface';
+import { LoginResponseInterface } from '../../../models/auth/login-response-interface';
+import { LogoutResponseInterface } from '../../../models/auth/logout-response-interface';
 
 @Injectable({
   providedIn: 'root'

@@ -5,10 +5,10 @@ import { CareerInterface } from '../../../core/models/careers/career-interface';
 import { SubjectsInterface } from '../../../core/models/subjects/subjects-interface';
 import { CommissionInterface } from '../../../core/models/commissions/commission-interface';
 import { PreviousAttendanceInterface } from '../../../core/models/attendances/previous-attendance-interface';
-import { CareersService } from '../../../core/services/careers/careers-service';
-import { CommissionsService } from '../../../core/services/commissions/commissions-service';
-import { AttendancesService } from '../../../core/services/attendances/attendances-service';
-import { ToastService } from '../../../core/services/notifications/toast/toast-service';
+import { CareersService } from '../../../core/services/api/careers/careers-service';
+import { CommissionsService } from '../../../core/services/api/commissions/commissions-service';
+import { AttendancesService } from '../../../core/services/api/attendances/attendances-service';
+import { ToastService } from '../../../core/services/ui/toast/toast-service';
 import { UpdateMultipleAttendancesRequestInterface } from '../../../core/models/attendances/update-multiple-attendances-request-interface';
 import { UpdateMultipleAttendancesResponseInterface } from '../../../core/models/attendances/update-multiple-attendances-response-interface';
 

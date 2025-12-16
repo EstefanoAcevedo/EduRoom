@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { StoreMultipleAttendancesRequestInterface } from '../../models/attendances/store-multiple-attendances-request-interface';
+import { StoreMultipleAttendancesRequestInterface } from '../../../models/attendances/store-multiple-attendances-request-interface';
 import { Observable } from 'rxjs';
-import { StoreMultipleAttendancesResponseInterface } from '../../models/attendances/store-multiple-attendances-response-interface.ts';
-import { environment } from '../../../../enviroments/enviroment';
-import { PreviousAttendanceInterface } from '../../models/attendances/previous-attendance-interface';
-import { UpdateMultipleAttendancesRequestInterface } from '../../models/attendances/update-multiple-attendances-request-interface';
-import { UpdateMultipleAttendancesResponseInterface } from '../../models/attendances/update-multiple-attendances-response-interface';
+import { StoreMultipleAttendancesResponseInterface } from '../../../models/attendances/store-multiple-attendances-response-interface.ts';
+import { environment } from '../../../../../enviroments/enviroment';
+import { PreviousAttendanceInterface } from '../../../models/attendances/previous-attendance-interface';
+import { UpdateMultipleAttendancesRequestInterface } from '../../../models/attendances/update-multiple-attendances-request-interface';
+import { UpdateMultipleAttendancesResponseInterface } from '../../../models/attendances/update-multiple-attendances-response-interface';
 
 @Injectable({
   providedIn: 'root'

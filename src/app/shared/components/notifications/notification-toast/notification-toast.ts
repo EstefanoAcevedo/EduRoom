@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 import * as bootstrap from 'bootstrap';
-import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
+import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 
 @Component({
   selector: 'app-notification-toast',

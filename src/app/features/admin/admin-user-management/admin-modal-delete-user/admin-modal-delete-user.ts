@@ -1,8 +1,8 @@
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import * as bootstrap from 'bootstrap';
 import { UserInterface } from '../../../../core/models/users/user-interface';
-import { UsersService } from '../../../../core/services/users/users-service';
-import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
+import { UsersService } from '../../../../core/services/api/users/users-service';
+import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-table';
 
 @Component({

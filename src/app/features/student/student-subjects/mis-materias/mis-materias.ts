@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StudentSubjectView } from '../../../../core/services/subjects/student-subject-view';
+import { StudentSubjectView } from '../../../../core/services/api/subjects/student-subject-view';
 @Component({
   selector: 'app-mis-materias',
   standalone: true,

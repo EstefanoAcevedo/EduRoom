@@ -3,9 +3,9 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { UserInterface } from '../../../../core/models/users/user-interface';
 import { RolInterface } from '../../../../core/models/roles/rol-interface';
-import { RolesService } from '../../../../core/services/roles/roles-service';
-import { UsersService } from '../../../../core/services/users/users-service';
-import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
+import { RolesService } from '../../../../core/services/api/roles/roles-service';
+import { UsersService } from '../../../../core/services/api/users/users-service';
+import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-table';
 
 @Component({

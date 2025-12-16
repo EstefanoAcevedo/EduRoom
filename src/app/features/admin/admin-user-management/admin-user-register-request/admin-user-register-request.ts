@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { EnrollmentInterface } from '../../../../core/models/enrollments/enrollment-interface';
-import { EnrollmentsServices } from '../../../../core/services/enrollments/enrollments-services';
-import { ToastService } from '../../../../core/services/notifications/toast/toast-service';
+import { EnrollmentsServices } from '../../../../core/services/api/enrollments/enrollments-services';
+import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 
 @Component({
   selector: 'app-admin-user-register-request',

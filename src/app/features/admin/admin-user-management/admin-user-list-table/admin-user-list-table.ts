@@ -2,7 +2,7 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { AdminModalEditUser } from "../admin-modal-edit-user/admin-modal-edit-user";
 import { AdminModalDeleteUser } from "../admin-modal-delete-user/admin-modal-delete-user";
 import { UserInterface } from '../../../../core/models/users/user-interface';
-import { UsersService } from '../../../../core/services/users/users-service';
+import { UsersService } from '../../../../core/services/api/users/users-service';
 
 @Component({
   selector: 'app-admin-user-list-table',

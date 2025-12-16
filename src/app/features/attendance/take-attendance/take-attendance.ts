@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
-import { CareersService } from '../../../core/services/careers/careers-service';
-import { CommissionsService } from '../../../core/services/commissions/commissions-service';
-import { EnrollmentsServices } from '../../../core/services/enrollments/enrollments-services';
-import { AttendanceStatesService } from '../../../core/services/attendances/attendance-states-service';
-import { AttendancesService } from '../../../core/services/attendances/attendances-service';
+import { CareersService } from '../../../core/services/api/careers/careers-service';
+import { CommissionsService } from '../../../core/services/api/commissions/commissions-service';
+import { EnrollmentsServices } from '../../../core/services/api/enrollments/enrollments-services';
+import { AttendanceStatesService } from '../../../core/services/api/attendances/attendance-states-service';
+import { AttendancesService } from '../../../core/services/api/attendances/attendances-service';
 import { CareerInterface } from '../../../core/models/careers/career-interface';
 import { SubjectsInterface } from '../../../core/models/subjects/subjects-interface';
 import { CommissionInterface } from '../../../core/models/commissions/commission-interface';
@@ -13,7 +13,7 @@ import { EnrollmentInterface } from '../../../core/models/enrollments/enrollment
 import { AttendanceStateInterface } from '../../../core/models/attendances/attendance-state-interface';
 import { StoreMultipleAttendancesRequestInterface } from '../../../core/models/attendances/store-multiple-attendances-request-interface';
 import { StoreMultipleAttendancesResponseInterface } from '../../../core/models/attendances/store-multiple-attendances-response-interface.ts';
-import { ToastService } from '../../../core/services/notifications/toast/toast-service';
+import { ToastService } from '../../../core/services/ui/toast/toast-service';
 
 @Component({
   selector: 'app-take-attendance',

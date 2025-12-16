@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { SubjectsInterface } from '../../models/subjects/subjects-interface';
-import { environment } from '../../../../enviroments/enviroment';
+import { SubjectsInterface } from '../../../models/subjects/subjects-interface';
+import { environment } from '../../../../../enviroments/enviroment';
 import { StudentSubjectView } from './student-subject-view';
-import { MySubject } from '../../models/subjects/my-subject';
+import { MySubject } from '../../../models/subjects/my-subject';
 
 @Injectable({
   providedIn: 'root'

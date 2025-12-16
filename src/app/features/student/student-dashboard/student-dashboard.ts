@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
-import { SubjectsService } from '../../../core/services/subjects/subjects-service';
-import { StudentSubjectView } from '../../../core/services/subjects/student-subject-view';
+import { SubjectsService } from '../../../core/services/api/subjects/subjects-service';
+import { StudentSubjectView } from '../../../core/services/api/subjects/student-subject-view';
 import {
   StudentAttendanceService,
   StudentAttendanceView

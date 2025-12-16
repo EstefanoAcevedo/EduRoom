@@ -2,13 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { CommissionInterface } from '../../../core/models/commissions/commission-interface';
-
 import { MisMateriasComponent } from './mis-materias/mis-materias';
-import { SubjectsService } from '../../../core/services/subjects/subjects-service';
-import { StudentSubjectView } from '../../../core/services/subjects/student-subject-view';
+import { SubjectsService } from '../../../core/services/api/subjects/subjects-service';
+import { StudentSubjectView } from '../../../core/services/api/subjects/student-subject-view';
 import { environment } from '../../../../enviroments/enviroment';
-import { EnrollmentsServices } from '../../../core/services/enrollments/enrollments-services';
-import { FormsModule } from '@angular/forms'; import { CareersService } from '../../../core/services/careers/careers-service';
+import { EnrollmentsServices } from '../../../core/services/api/enrollments/enrollments-services';
+import { FormsModule } from '@angular/forms'; 
+import { CareersService } from '../../../core/services/api/careers/careers-service';
 @Component({
   selector: 'app-student-subjects',
   standalone: true,

@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild, ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/services/auth/auth-service';
-import { ToastService } from '../../../core/services/notifications/toast/toast-service';
+import { AuthService } from '../../../core/services/api/auth/auth-service';
+import { ToastService } from '../../../core/services/ui/toast/toast-service';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 

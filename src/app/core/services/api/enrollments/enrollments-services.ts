@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EnrollmentInterface } from '../../models/enrollments/enrollment-interface';
-import { environment } from '../../../../enviroments/enviroment';
+import { EnrollmentInterface } from '../../../models/enrollments/enrollment-interface';
+import { environment } from '../../../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'

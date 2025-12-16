@@ -2,9 +2,9 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { RouterLink, Router } from "@angular/router";
-import { AuthService } from '../../../core/services/auth/auth-service';
+import { AuthService } from '../../../core/services/api/auth/auth-service';
 import { LoginRequestInterface } from '../../../core/models/auth/login-request-interface';
-import { ToastService } from '../../../core/services/notifications/toast/toast-service';
+import { ToastService } from '../../../core/services/ui/toast/toast-service';
 
 @Component({
   selector: 'app-login',
