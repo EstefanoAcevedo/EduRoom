@@ -5,6 +5,7 @@ import { UserInterface } from '../../../../core/models/users/user-interface';
 import { RolInterface } from '../../../../core/models/roles/rol-interface';
 import { RolesService } from '../../../../core/services/api/roles/roles-service';
 import { UsersService } from '../../../../core/services/api/users/users-service';
+import { UsersUiService } from '../../../../core/services/ui/users/users-ui-service';
 import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-table';
 
@@ -18,11 +19,17 @@ export class AdminModalEditUser {
 
   ngOnInit() {
     this.getRoles();
+    this.usersUiService.editUser$.subscribe(user => {
+      this.user = user;
+      this.newEditUserForm();
+      this.show();
+    });
   }
   
   @ViewChild('adminModalEditUser') modalElement!: ElementRef;
   private modalEditUser!: bootstrap.Modal;
   private usersService = inject(UsersService);
+  private usersUiService = inject(UsersUiService);
   private rolesService = inject(RolesService);
   private toastService = inject(ToastService);
   private adminUserListTable = inject(AdminUserListTable);

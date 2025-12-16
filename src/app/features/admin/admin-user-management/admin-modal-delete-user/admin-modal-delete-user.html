@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-tittle">Eliminar usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" (click)="hide()"></button>
             </div>
             <div class="modal-body">
                 <p>Eliminará al usuario: <strong>{{user?.user_lastname}}, {{user?.user_name}} - CUIL: {{user?.user_cuil}}</strong></p>

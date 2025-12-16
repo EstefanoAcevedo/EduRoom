@@ -2,6 +2,7 @@ import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import * as bootstrap from 'bootstrap';
 import { UserInterface } from '../../../../core/models/users/user-interface';
 import { UsersService } from '../../../../core/services/api/users/users-service';
+import { UsersUiService } from '../../../../core/services/ui/users/users-ui-service';
 import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-table';
 
@@ -13,9 +14,17 @@ import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-tab
 })
 export class AdminModalDeleteUser {
 
+  ngOnInit() {
+    this.usersUiService.deleteUser$.subscribe(user => {
+      this.user = user;
+      this.show();
+    });
+  }
+
   @ViewChild('adminModalDeleteUser') modalElement!: ElementRef;
   private modalEditUser!: bootstrap.Modal;
   private usersService = inject(UsersService);
+  private usersUiService = inject(UsersUiService);
   private toastService = inject(ToastService);
   private adminUserListTable = inject(AdminUserListTable);
   isDeleting: boolean = false;

@@ -1,8 +1,9 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AdminModalEditUser } from "../admin-modal-edit-user/admin-modal-edit-user";
 import { AdminModalDeleteUser } from "../admin-modal-delete-user/admin-modal-delete-user";
 import { UserInterface } from '../../../../core/models/users/user-interface';
 import { UsersService } from '../../../../core/services/api/users/users-service';
+import { UsersUiService } from '../../../../core/services/ui/users/users-ui-service';
 
 @Component({
   selector: 'app-admin-user-list-table',
@@ -13,8 +14,7 @@ import { UsersService } from '../../../../core/services/api/users/users-service'
 export class AdminUserListTable {
 
   private usersService = inject(UsersService);
-  @ViewChild(AdminModalEditUser) adminModalEditUser!: AdminModalEditUser;
-  @ViewChild(AdminModalDeleteUser) adminModalDeleteUser!: AdminModalDeleteUser;
+  private usersUiService = inject(UsersUiService);
 
   ngOnInit() {
     this.getUsers();
@@ -40,21 +40,11 @@ export class AdminUserListTable {
   }
 
   showEditUserModal(user: UserInterface) {
-    this.adminModalEditUser.user = user;
-    this.adminModalEditUser.show();
-  }
-
-  hideEditUserModal() {
-    this.adminModalEditUser.hide();
+    this.usersUiService.openEditUser(user);
   }
 
   showDeleteUserModal(user: UserInterface) {
-    this.adminModalDeleteUser.user = user;
-    this.adminModalDeleteUser.show();
-  }
-
-  hideDeleteUserModal() {
-    this.adminModalDeleteUser.hide();
+    this.usersUiService.openDeleteUser(user);
   }
 
 }
