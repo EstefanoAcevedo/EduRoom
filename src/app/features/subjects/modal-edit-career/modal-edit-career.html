@@ -1,0 +1,45 @@
+<div #modalEditCareer class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-tittle">Editar carrera</h5>
+                <button type="button" class="btn-close" (click)="hide()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="editCareerForm" class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre de la carrera" formControlName="career_name">
+                        @if (career_name.invalid && (career_name.dirty || career_name.touched)) {
+                            <div class="invalid-feedback d-block">
+                                @if (career_name.hasError("required")) {Introduzca un nombre para la carrera}
+                                @if (career_name.hasError("maxlength")) {Nombre demasiado largo}
+                            </div>
+                        }
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Alias</label>
+                        <input class="form-control" type="text" placeholder="Alias de la carrera" formControlName="career_alias">
+                        @if (career_alias.invalid && (career_alias.dirty || career_alias.touched)) {
+                            <div class="invalid-feedback d-block">
+                                @if (career_alias.hasError("required")) {Introduzca un alias para la carrera}
+                                @if (career_alias.hasError("maxlength")) {Alias demasiado largo}
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="hide()" type="button" class="btn btn-danger">Cancelar</button>
+                @if (isEditing) {
+                    <button class="btn btn-success m-1" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Editando...
+                    </button>
+                } @else {
+                    <button (click)="editCareer()" type="button" class="btn btn-success">Editar</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

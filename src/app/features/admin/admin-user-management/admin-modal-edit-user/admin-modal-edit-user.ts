@@ -39,7 +39,7 @@ export class AdminModalEditUser {
   ngAfterViewInit() {
     this.modalEditUser = new bootstrap.Modal(this.modalElement.nativeElement);
   }
-  
+
   show() {
     this.modalEditUser.show();
     this.newEditUserForm();

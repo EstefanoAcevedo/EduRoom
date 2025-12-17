@@ -33,4 +33,16 @@ export class SubjectsService {
         ));
   }
 
+  postSubject(subject: SubjectsInterface): Observable<SubjectsInterface> {
+    return this.http.post<SubjectsInterface>(`${environment.apiUrl}subjects`, subject)
+  }
+
+  putSubject(subject: SubjectsInterface): Observable<SubjectsInterface> {
+    return this.http.put<SubjectsInterface>(`${environment.apiUrl}subjects/${subject.subject_id}`, subject)
+  }
+
+  deleteSubject(subjectId: number): Observable<SubjectsInterface> {
+    return this.http.delete<SubjectsInterface>(`${environment.apiUrl}subjects/${subjectId}`);
+  }
+
 }

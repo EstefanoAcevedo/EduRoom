@@ -1,0 +1,23 @@
+<div #modalDeleteCareer class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-tittle">Eliminar carrera</h5>
+                <button type="button" class="btn-close" (click)="hide()"></button>
+            </div>
+            <div class="modal-body">
+                <p>Eliminará la carrera <strong>{{career?.career_name}}</strong> y todas sus asignaturas.</p>
+            </div>
+            <div class="modal-footer">
+                @if (isDeleting) {
+                    <button class="btn btn-danger m-1" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Eliminando...
+                    </button>
+                } @else {
+                    <button (click)="deleteCareer()" type="button" class="btn btn-danger">Eliminar</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

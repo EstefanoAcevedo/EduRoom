@@ -19,4 +19,16 @@ export class CareersService {
     return this.http.get<CareerInterface[]>(`${environment.apiUrl}careers-with-subjects`);
   }
 
+  postCareer(career: CareerInterface): Observable<CareerInterface> {
+    return this.http.post<CareerInterface>(`${environment.apiUrl}careers`, career)
+  }
+
+  putCareer(career: CareerInterface): Observable<CareerInterface> {
+    return this.http.put<CareerInterface>(`${environment.apiUrl}careers/${career.career_id}`, career)
+  }
+
+  deleteCareer(careerId: number): Observable<CareerInterface> {
+    return this.http.delete<CareerInterface>(`${environment.apiUrl}careers/${careerId}`);
+  }
+
 }
