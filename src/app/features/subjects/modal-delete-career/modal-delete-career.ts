@@ -5,6 +5,8 @@ import { CareersUiService } from '../../../core/services/ui/careers/careers-ui-s
 import { CareersService } from '../../../core/services/api/careers/careers-service';
 import { ToastService } from '../../../core/services/ui/toast/toast-service';
 import { Subjects } from '../subjects/subjects';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal-delete-career',
@@ -15,7 +17,7 @@ import { Subjects } from '../subjects/subjects';
 export class ModalDeleteCareer {
 
   ngOnInit() {
-    this.careersUiService.deleteCareer$.subscribe(career => {
+    this.careersUiService.deleteCareer$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(career => {
       this.career = career;
       this.show();
     });
@@ -27,6 +29,7 @@ export class ModalDeleteCareer {
   private careersUiService = inject(CareersUiService);
   private toastService = inject(ToastService);
   private subjects = inject(Subjects);
+  private destroyRef = inject(DestroyRef);
   isDeleting: boolean = false;
 
   @Input() career: CareerInterface | null = null;

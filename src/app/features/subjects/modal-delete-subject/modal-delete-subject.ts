@@ -5,6 +5,8 @@ import { SubjectsService } from '../../../core/services/api/subjects/subjects-se
 import { ToastService } from '../../../core/services/ui/toast/toast-service';
 import { Subjects } from '../subjects/subjects';
 import { SubjectsInterface } from '../../../core/models/subjects/subjects-interface';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal-delete-subject',
@@ -15,7 +17,7 @@ import { SubjectsInterface } from '../../../core/models/subjects/subjects-interf
 export class ModalDeleteSubject {
 
   ngOnInit() {
-    this.subjectsUiService.deleteSubject$.subscribe(subject => {
+    this.subjectsUiService.deleteSubject$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(subject => {
       this.subject = subject;
       this.show();
     });
@@ -27,6 +29,7 @@ export class ModalDeleteSubject {
   private subjectsUiService = inject(SubjectsUiService);
   private toastService = inject(ToastService);
   private subjects = inject(Subjects);
+  private destroyRef = inject(DestroyRef);
   isDeleting: boolean = false;
 
   @Input() subject: SubjectsInterface | null = null;

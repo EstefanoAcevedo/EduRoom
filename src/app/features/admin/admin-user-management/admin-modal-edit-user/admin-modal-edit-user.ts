@@ -8,6 +8,8 @@ import { UsersService } from '../../../../core/services/api/users/users-service'
 import { UsersUiService } from '../../../../core/services/ui/users/users-ui-service';
 import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-table';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-admin-modal-edit-user',
@@ -19,7 +21,7 @@ export class AdminModalEditUser {
 
   ngOnInit() {
     this.getRoles();
-    this.usersUiService.editUser$.subscribe(user => {
+    this.usersUiService.editUser$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
       this.user = user;
       this.newEditUserForm();
       this.show();
@@ -33,6 +35,7 @@ export class AdminModalEditUser {
   private rolesService = inject(RolesService);
   private toastService = inject(ToastService);
   private adminUserListTable = inject(AdminUserListTable);
+  private destroyRef = inject(DestroyRef);
   roles: RolInterface[] = [];
   isEditing: boolean = false;
 

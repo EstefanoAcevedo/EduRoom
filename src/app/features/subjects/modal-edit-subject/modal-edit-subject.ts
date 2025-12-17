@@ -6,6 +6,8 @@ import { Subjects } from '../subjects/subjects';
 import { SubjectsService } from '../../../core/services/api/subjects/subjects-service';
 import { SubjectsInterface } from '../../../core/models/subjects/subjects-interface';
 import { SubjectsUiService } from '../../../core/services/ui/subjects/subjects-ui-service';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal-edit-subject',
@@ -16,7 +18,7 @@ import { SubjectsUiService } from '../../../core/services/ui/subjects/subjects-u
 export class ModalEditSubject {
 
   ngOnInit() {
-    this.subjectsUiService.editSubject$.subscribe((subject) => {
+    this.subjectsUiService.editSubject$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((subject) => {
       this.subject = subject;
       this.newSubjectForm();
       this.show();
@@ -28,6 +30,7 @@ export class ModalEditSubject {
   private subjects = inject(Subjects);
   private subjectsService = inject(SubjectsService);
   private subjectsUiService = inject(SubjectsUiService);
+  private destroyRef = inject(DestroyRef);
   isEditing: boolean = false;
 
   @ViewChild('modalEditSubject') modalElement!: ElementRef;

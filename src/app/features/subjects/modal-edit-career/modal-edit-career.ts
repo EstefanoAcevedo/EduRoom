@@ -6,6 +6,8 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CareerInterface } from '../../../core/models/careers/career-interface';
 import { ToastService } from '../../../core/services/ui/toast/toast-service';
 import { Subjects } from '../subjects/subjects';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal-edit-career',
@@ -16,7 +18,7 @@ import { Subjects } from '../subjects/subjects';
 export class ModalEditCareer {
 
   ngOnInit() {
-    this.careersUiService.editCareer$.subscribe((career) => {
+    this.careersUiService.editCareer$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((career) => {
       this.career = career;
       this.newEditCareerForm();
       this.show();
@@ -29,6 +31,7 @@ export class ModalEditCareer {
   private careersService = inject(CareersService);
   private toastService = inject(ToastService);
   private subjects = inject(Subjects);
+  private destroyRef = inject(DestroyRef);
   isEditing: boolean = false;
 
   @ViewChild('modalEditCareer') modalElement!: ElementRef;

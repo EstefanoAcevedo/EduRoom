@@ -5,6 +5,8 @@ import { UsersService } from '../../../../core/services/api/users/users-service'
 import { UsersUiService } from '../../../../core/services/ui/users/users-ui-service';
 import { ToastService } from '../../../../core/services/ui/toast/toast-service';
 import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-table';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-admin-modal-delete-user',
@@ -15,7 +17,7 @@ import { AdminUserListTable } from '../admin-user-list-table/admin-user-list-tab
 export class AdminModalDeleteUser {
 
   ngOnInit() {
-    this.usersUiService.deleteUser$.subscribe(user => {
+    this.usersUiService.deleteUser$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
       this.user = user;
       this.show();
     });
@@ -27,6 +29,7 @@ export class AdminModalDeleteUser {
   private usersUiService = inject(UsersUiService);
   private toastService = inject(ToastService);
   private adminUserListTable = inject(AdminUserListTable);
+  private destroyRef = inject(DestroyRef);
   isDeleting: boolean = false;
 
   ngAfterViewInit() {
