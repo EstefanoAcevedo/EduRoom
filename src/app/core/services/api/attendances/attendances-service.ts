@@ -7,6 +7,7 @@ import { environment } from '../../../../../enviroments/enviroment';
 import { PreviousAttendanceInterface } from '../../../models/attendances/previous-attendance-interface';
 import { UpdateMultipleAttendancesRequestInterface } from '../../../models/attendances/update-multiple-attendances-request-interface';
 import { UpdateMultipleAttendancesResponseInterface } from '../../../models/attendances/update-multiple-attendances-response-interface';
+import { AttendancesSummaryInterface } from '../../../models/attendances/attendances-summary-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,10 @@ export class AttendancesService {
 
   getAbsentAttendances(subjectId: number, commissionId: number, date: string): Observable<PreviousAttendanceInterface[]> {
     return this.http.get<PreviousAttendanceInterface[]>(`${environment.apiUrl}absent-attendances/${subjectId}/${commissionId}/${date}`);
+  }
+
+  getAttendancesSummary(subjectId: number, commissionId: number): Observable<AttendancesSummaryInterface[]> {
+    return this.http.get<AttendancesSummaryInterface[]>(`${environment.apiUrl}attendances/summary/${subjectId}/${commissionId}`);
   }
 
 }

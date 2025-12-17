@@ -1,62 +1,102 @@
 <section class="bg-white border shadow-sm rounded p-4 mb-3">
-    <h3 class="mb-3">Asistencias previas</h3>
-    <form [formGroup]="commissionForm" class="row g-3">
-        <div class="col-12 col-xl-4">
-            <label class="form-label">Carrera</label>
-            <select formControlName="career" (change)="onCareerChange()" class="form-select">
-                <option value="0" selected disabled>Seleccione una carrera</option>
-                @for (career of careers; track $index) {
-                    <option value="{{career.career_id}}">{{career.career_name}}</option>
-                }
-            </select>
+    <h3 class="mb-3">Consultar asistencias</h3>
+    @if (isLoadingCareers) {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
         </div>
-        <div class="col-12 col-sm-6 col-xl-4">
-            <label class="form-label">Asignatura</label>
-            <select formControlName="subject" (change)="onSubjectChange()" class="form-select">
-                <option value="0" selected disabled>Seleccione una asignatura</option>
-                @for (subject of subjects; track $index) {
-                    <option value="{{subject.subject_id}}">{{subject.subject_name}}</option>
-                }
-            </select>
+    } @else if (isError) {
+        <div class="alert alert-danger mb-0" role="alert">
+            Error al cargar las carreras. Por favor, intente nuevamente más tarde.
         </div>
-        <div class="col-12 col-sm-6 col-xl-4">
-            <label class="form-label">Comisión</label>
-            <select formControlName="commission" (change)="onCommissionChange()" class="form-select">
-                <option value="0" selected disabled>Seleccione una comisión</option>
-                @for (commission of commissions; track $index) {
-                    <option value="{{commission.commission_id}}">{{commission.commission_name}}</option>
-                }
-            </select>
-        </div>
-    </form>
+    } @else {
+        <form [formGroup]="commissionForm" class="row g-3">
+            <div class="col-12 col-xl-4">
+                <label class="form-label">Carrera</label>
+                <select formControlName="career" (change)="onCareerChange()" class="form-select">
+                    <option value="0" selected disabled>Seleccione una carrera</option>
+                    @for (career of careers; track $index) {
+                        <option value="{{career.career_id}}">{{career.career_name}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-xl-4">
+                <label class="form-label">Asignatura</label>
+                <select formControlName="subject" (change)="onSubjectChange()" class="form-select">
+                    <option value="0" selected disabled>Seleccione una asignatura</option>
+                    @for (subject of subjects; track $index) {
+                        <option value="{{subject.subject_id}}">{{subject.subject_name}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-xl-4">
+                <label class="form-label">Comisión</label>
+                <select formControlName="commission" (change)="onCommissionChange()" class="form-select">
+                    <option value="0" selected disabled>Seleccione una comisión</option>
+                    @for (commission of commissions; track $index) {
+                        <option value="{{commission.commission_id}}">{{commission.commission_name}}</option>
+                    }
+                </select>
+            </div>
+        </form>
+    }
 </section>
-@if(isCommissionSelected) {
+@if (isCommissionSelected) {
     <section class="bg-white border shadow-sm rounded p-4 mb-3">
-        <h3 class="mb-3">Lista de asistencias previas</h3>
-        <p class="mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-            </svg>
-            Seleccione un registro para visualizarlo 
-        </p>
-        <ul class="list-group mb-3">
-            @for (attendance of previousAttendances; track $index) {
-                <li data-bs-toggle="modal" data-bs-target="#modal-previous-attendance" role="button" class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{attendance.attendance_date}}</strong> - {{attendance.commission_id.commission_name}} - {{attendance.subject_id.subject_name}}
-                    </div>
-                </li>
-            }
-        </ul>
+        @if(isLoadingAttendanceSummary) {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status"></div>
+            </div>
+        } @else if(isErrorAttendanceSummary) {
+            <div class="alert alert-danger mb-0" role="alert">
+                Error al cargar las asistencias. Por favor, intente nuevamente más tarde.
+            </div>
+        } @else if (attendancesSummary.length === 0) {
+            <p class="mb-0">No hay asistencias registradas.</p>
+        } @else {
+            <div class="table-responsive rounded">
+                <table class="table table-hover text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Presentes</th>
+                            <th scope="col">Medias faltas</th>
+                            <th scope="col">Ausentes</th>
+                            <th scope="col">Total de estudiantes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (attendanceSummary of attendancesSummary; track $index) {
+                            <tr (click)="showPreviousAttendance(attendanceSummary)" role="button">
+                                <td>{{attendanceSummary.attendance_date}}</td>
+                                @if (attendanceSummary.presentes > 0) {
+                                    <td><span class="badge text-bg-dark user-select-none bg-success">{{attendanceSummary.presentes}}</span></td>
+                                } @else {
+                                    <td>-</td>
+                                }
+                                @if (attendanceSummary.medias_faltas > 0) {
+                                    <td><span class="badge text-bg-dark user-select-none bg-warning">{{attendanceSummary.medias_faltas}}</span></td>
+                                } @else {
+                                    <td>-</td>
+                                }
+                                @if (attendanceSummary.ausentes > 0) {
+                                    <td><span class="badge text-bg-dark user-select-none bg-danger">{{attendanceSummary.ausentes}}</span></td>
+                                } @else {
+                                    <td>-</td>
+                                }
+                                <td><span class="badge text-bg-dark user-select-none">{{attendanceSummary.total}}</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
     </section>
-    <app-modal-previous-attendance></app-modal-previous-attendance>
 } @else {
-    <section class="bg-white border shadow-sm rounded p-4 mb-3">
-        <p class="mb-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-            </svg>
-            Seleccione una carrera, una asignatura y una comisión para ver su listado de asistencias 
-        </p>
-    </section>
+    <p class="bg-white border shadow-sm rounded p-4 mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+        </svg>
+        Seleccione una comisión para ver las asistencias registradas.
+    </p>
 }
+<app-modal-previous-attendance></app-modal-previous-attendance>

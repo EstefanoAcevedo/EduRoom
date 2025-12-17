@@ -1,45 +1,56 @@
-<div class="modal fade" id="modal-previous-attendance" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<div #modalPreviousAttendance class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="previousAttendanceModalLabel">Asistencia 2023-01-15 ejemplo</h5>
+                <h5 class="modal-title" id="previousAttendanceModalLabel">Asistencia del día <strong>{{ previousAttendanceRequest?.attendance_date }}</strong></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <ul class="list-group">
-                    @for (enrollment of enrollments; track $index) {
-                    <li 
-                        [ngClass]="{
-                            'bg-success': enrollment.attendance_state_id === 1,
-                            'bg-warning': enrollment.attendance_state_id === 2,
-                            'bg-danger': enrollment.attendance_state_id === 3
-                        }"
-                        class="list-group-item"
-                        role="button">
-                        @switch (enrollment.attendance_state_id) {
-                            @case (0) {
-                                <span class="badge text-bg-dark user-select-none">Sin estado</span>
-                            }
-                            @case (1) {
-                                <span class="badge text-bg-dark user-select-none">Presente</span>
-                            }
-                            @case (2) {
-                                <span class="badge text-bg-dark user-select-none">Media falta</span>
-                            }
-                            @case (3) {
-                                <span class="badge text-bg-dark user-select-none">Ausente</span>
-                            }
+                    @if (isLoading) {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status"></div>
+                        </div>
+                    } @else if(isError) {
+                        <div class="alert alert-danger mb-0" role="alert">
+                            Error al cargar las asistencias. Por favor, intente nuevamente más tarde.
+                        </div>
+                    } @else if (previousAttendances.length === 0) {
+                        <p class="mb-0">No hay asistencias registradas.</p>
+                    } @else {
+                        @for (attendance of previousAttendances; track $index) {
+                            <li 
+                                [ngClass]="{
+                                    'bg-success': attendance.attendance_state_id === 1,
+                                    'bg-warning': attendance.attendance_state_id === 2,
+                                    'bg-danger': attendance.attendance_state_id === 3
+                                }"
+                                class="list-group-item">
+                                @switch (attendance.attendance_state_id) {
+                                    @case (0) {
+                                        <span class="badge text-bg-dark user-select-none">Sin estado</span>
+                                    }
+                                    @case (1) {
+                                        <span class="badge text-bg-dark user-select-none">Presente</span>
+                                    }
+                                    @case (2) {
+                                        <span class="badge text-bg-dark user-select-none">Media falta</span>
+                                    }
+                                    @case (3) {
+                                        <span class="badge text-bg-dark user-select-none">Ausente</span>
+                                    }
+                                }
+                                <p 
+                                    [ngClass]="{
+                                        'text-white': [1, 3].includes(attendance.attendance_state_id),
+                                        'text-black': [0, 2].includes(attendance.attendance_state_id),
+                                    }"
+                                    class="d-block d-sm-inline mb-0 ms-sm-3 user-select-none">
+                                    {{attendance.enrollment.user.user_lastname}}, {{attendance.enrollment.user.user_name}}
+                                </p>
+                            </li>
                         }
-                        <p 
-                            [ngClass]="{
-                                'text-white': [1, 3].includes(enrollment.attendance_state_id),
-                                'text-black': [0, 2].includes(enrollment.attendance_state_id),
-                            }"
-                            class="d-block d-sm-inline mb-0 ms-sm-3 user-select-none">
-                            {{enrollment.user_id.user_lastname}}, {{enrollment.user_id.user_name}}
-                        </p>
-                    </li>
-                }
+                    }
                 </ul>
             </div>
         </div>
