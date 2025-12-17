@@ -31,11 +31,11 @@ export class Sidebar {
   private sidebarOffcanvas!: bootstrap.Offcanvas;
 
   ngAfterViewInit() {
-    this.sidebarOffcanvas = new bootstrap.Offcanvas(
+    this.sidebarOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(
       this.sidebarElement.nativeElement,
       {
-        backdrop: true,     
-        keyboard: true,    
+        backdrop: true,
+        keyboard: true,
         scroll: false
       }
     );
