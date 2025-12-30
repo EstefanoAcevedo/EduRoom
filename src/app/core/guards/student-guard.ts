@@ -1,29 +1,30 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/api/auth/auth-service';
+import { map, catchError, of } from 'rxjs';
 
 export const studentGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const userRol = sessionStorage.getItem('roles');
+    const authService = inject(AuthService);
 
-  switch (userRol) {
-    
-    case '["Admin"]':
-      const adminDashboardPath = router.parseUrl('private/admin/dashboard');
-      return new RedirectCommand(adminDashboardPath);
-      break;
-    
-    case '["Teacher"]':
-      const teacherDashboardPath = router.parseUrl('private/teacher/dashboard');
-      return new RedirectCommand(teacherDashboardPath);
-      break;
-    
-    case '["Student"]':
-      return true;
-      break;
-    
-    default:
-      const loginPath = router.parseUrl('public/auth/login');
-      return new RedirectCommand(loginPath);
-      break;
-  }
+    return authService.getUser().pipe(
+        map(response => {
+          const user = response.user;
+          sessionStorage.setItem('user_name', `${user.user_name} ${user.user_lastname}`);
+          sessionStorage.setItem('roles', JSON.stringify(user.roles));
+          sessionStorage.setItem('user_id', String(user.user_id));
+          const userRol = user.roles?.at(0);
+          switch (userRol) {
+              case 'Admin':
+                  return router.parseUrl('private/admin/dashboard');
+              case 'Teacher':
+                  return router.parseUrl('private/teacher/dashboard');
+              case 'Student':
+                  return true
+              default:
+                  return router.parseUrl('public/auth/login');
+          }
+        }),
+        catchError(() => of(router.parseUrl('public/auth/login')))
+    );
 };

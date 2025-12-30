@@ -27,23 +27,22 @@ export class Login {
     this.loginForm = this.fb.group({
       user_email: ["", [Validators.required, Validators.email]],
       user_pass: ["", [Validators.required, Validators.minLength(8)]],
+      remember_me: [false]
     });
   }
 
   get f() { return this.loginForm.controls; }
 
   private inicioExitoso(data: {
-    token: string;
     user_name: string;
     user_lastname: string;
     roles: string[];
     user_id: number;
   }): void {
 
-    sessionStorage.setItem('authToken', data.token);
     sessionStorage.setItem('user_name', `${data.user_name} ${data.user_lastname}`);
     sessionStorage.setItem('roles', JSON.stringify(data.roles));
-    sessionStorage.setItem('user_id', String(data.user_id)); // 👈 AGREGADO
+    sessionStorage.setItem('user_id', String(data.user_id));
   }
 
   onSubmit() {
@@ -55,8 +54,9 @@ export class Login {
 
       const user_email = String(this.loginForm.value.user_email || '').trim();
       const user_pass = String(this.loginForm.value.user_pass || '').trim();
+      const remember_me = Boolean(this.loginForm.value.remember_me || false);
 
-      const loginRequest: LoginRequestInterface = { user_email, user_pass };
+      const loginRequest: LoginRequestInterface = { user_email, user_pass, remember_me };
 
       this.authService.login(loginRequest).subscribe({
         next: (response) => {
@@ -65,20 +65,15 @@ export class Login {
           const roles: string[] = Array.isArray(rolesRaw)
             ? rolesRaw.map((r: any) => typeof r === 'string' ? r : (r?.name ?? '')).filter(Boolean)
             : [String(rolesRaw || '')].filter(Boolean);
-
           this.inicioExitoso({
-            token: response.access_token,
-            user_id: response.user.user_id!,              // 👈 ahora sí
+            user_id: response.user.user_id!,             
             user_name: response.user.user_name,
             user_lastname: response.user.user_lastname,
             roles
           });
-
           // Elegir destino según rol (case-insensitive)
           const has = (role: string) => roles.some(r => r.toLowerCase() === role.toLowerCase());
-
           this.isLoading = false;
-
           if (has('admin')) {
             this.router.navigate(['/private/admin/dashboard'], { replaceUrl: true });
           } else if (has('teacher')) {
@@ -95,7 +90,7 @@ export class Login {
           this.toastService.showError(error.error?.message, 'Error al iniciar sesión.');
         }
       });
-
+      
     }
   }
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { CareerInterface } from '../../../models/careers/career-interface';
 import { environment } from '../../../../../enviroments/enviroment';
 
@@ -16,7 +16,7 @@ export class CareersService {
   }
 
   getCareersWithSubjects(): Observable<CareerInterface[]> {
-    return this.http.get<CareerInterface[]>(`${environment.apiUrl}careers-with-subjects`);
+    return this.http.get<CareerInterface[]>(`${environment.apiUrl}careers-with-subjects`)
   }
 
   postCareer(career: CareerInterface): Observable<CareerInterface> {

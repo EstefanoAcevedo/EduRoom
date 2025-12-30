@@ -1,5 +1,5 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LocationsService } from '../../../core/services/api/locations/locations-service';
 import { RolesService } from '../../../core/services/api/roles/roles-service';
@@ -16,6 +16,7 @@ import { ToastService } from '../../../core/services/ui/toast/toast-service';
 })
 export class Register {
 
+  private router = inject(Router);
   private formBuilder = inject(FormBuilder);
   private locationsService = inject(LocationsService);
   private rolesService = inject(RolesService);
@@ -122,6 +123,7 @@ export class Register {
           this.isLoading = false;
           this.toastService.showSuccess(`${response.message}, ya puede iniciar sesión con sus credenciales`, 'Registro exitoso');
           this.registerForm.reset();
+          this.router.navigate(['/login']);
         },
         error: (error) => {
           this.isLoading = false;

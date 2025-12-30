@@ -22,10 +22,12 @@ export const app_routes: Routes = [
             { path: 'admin', loadChildren: () => import('./features/admin/admin.routes').then(m => m.admin_routes), canActivate: [adminGuard] },
             { path: 'teacher', loadChildren: () => import('./features/teacher/teacher.routes').then(m => m.teacher_routes), canActivate: [teacherGuard] },
             { path: 'student', loadChildren: () => import('./features/student/student.routes').then(m => m.student_routes), canActivate: [studentGuard] },
+            { path: '', redirectTo: 'student', pathMatch: 'full' },
+            { path: '**', redirectTo: 'student', pathMatch: 'full' },
         ]
     },
     
-    { path: '', redirectTo: 'public/auth', pathMatch: 'full' },
-    { path: '**', redirectTo: 'public/auth', pathMatch: 'full' },
+    { path: '', redirectTo: 'private/student', pathMatch: 'full' },
+    { path: '**', redirectTo: 'private/student', pathMatch: 'full' },
 
 ];  

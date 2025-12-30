@@ -53,7 +53,6 @@ export class Sidebar {
     this.isLoading = true;
     this.authService.logout({}).subscribe({
       next: (response) => {
-        sessionStorage.removeItem('authToken');
         sessionStorage.removeItem('user_name');
         sessionStorage.removeItem('roles');
         this.isLoading = false;
