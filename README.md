@@ -6,24 +6,11 @@
 
 <p align="center">Una aplicación web para la gestión de inscripciones y asistencias educativas.</p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Estado-En%20Desarrollo-yellow" alt="Estado" />
-  <img src="https://img.shields.io/badge/Lenguaje-TypeScript-blue" alt="Lenguaje" />
-</p>
-
----
-
-## 📋 Tabla de Contenidos
-
-- [Descripción General](#descripción-general)
-- [Instalación](#instalación)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-
 ---
 
 ## 🧩 Descripción General
 
-**EduRoom** es un sistema de gestión de inscripciones y asistencias desarrollado como una *Single Page Application* utilizando Angular en su versión 20.0.2. Integra Bootstrap para el diseño visual y Apache ECharts para la generación de gráficos dinámicos e interactivos. El proyecto está en desarrollo y está pensado para ser modular, escalable y fácil de mantener.
+**EduRoom** es un sistema de gestión de inscripciones y asistencias de estudiantes desarrollado como una *Single Page Application* utilizando Angular en su versión 20.0.2. Se trata de un proyecto colaborativo desarrollado y presentado como requisito indispensable para aprobar la unidad curricular "Programación III" de la Tecnicatura Superior en Análisis y Desarrollo de Software. El mismo integra módulos para gestionar carreras académicas, usuarios, estudiantes, inscripciones y asistencias.
 
 ---
 
